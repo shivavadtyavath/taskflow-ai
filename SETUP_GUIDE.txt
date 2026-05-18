@@ -1,0 +1,156 @@
+====================================================
+  TaskFlow AI — Quick Setup & Deployment Guide
+====================================================
+
+PREREQUISITES
+-------------
+- Node.js 18+
+- MongoDB Atlas account (free): https://cloud.mongodb.com
+- Groq API key (free): https://console.groq.com
+- Railway account (free): https://railway.app
+- GitHub account
+
+====================================================
+  STEP 1: MONGODB ATLAS SETUP
+====================================================
+1. Go to https://cloud.mongodb.com
+2. Create a free cluster (M0 Sandbox)
+3. Create a database user (username + password)
+4. Whitelist IP: 0.0.0.0/0 (allow all for Railway)
+5. Get connection string:
+   mongodb+srv://<user>:<pass>@cluster.mongodb.net/taskflow
+
+====================================================
+  STEP 2: GROQ API KEY (FREE)
+====================================================
+1. Go to https://console.groq.com
+2. Sign up and create an API key
+3. Copy the key (starts with gsk_...)
+   Note: App works without this key (uses fallbacks)
+
+====================================================
+  STEP 3: LOCAL DEVELOPMENT
+====================================================
+
+Backend:
+  cd backend
+  npm install
+  
+  Create backend/.env with:
+  -------------------------
+  PORT=5000
+  MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/taskflow
+  JWT_SECRET=any_random_32_char_string_here_abc123
+  JWT_EXPIRE=7d
+  GROQ_API_KEY=gsk_your_key_here
+  NODE_ENV=development
+  FRONTEND_URL=http://localhost:5173
+  -------------------------
+  
+  npm run dev
+  
+  (Optional) Seed demo data:
+  node scripts/seed.js
+
+Frontend:
+  cd frontend
+  npm install
+  
+  Create frontend/.env.local with:
+  -------------------------
+  VITE_API_URL=http://localhost:5000/api
+  -------------------------
+  
+  npm run dev
+  
+  Open: http://localhost:5173
+
+====================================================
+  STEP 4: PUSH TO GITHUB
+====================================================
+  git init
+  git add .
+  git commit -m "TaskFlow AI - Full Stack App"
+  git branch -M main
+  git remote add origin https://github.com/YOUR_USERNAME/taskflow-ai.git
+  git push -u origin main
+
+====================================================
+  STEP 5: DEPLOY BACKEND ON RAILWAY
+====================================================
+1. Go to https://railway.app → New Project
+2. "Deploy from GitHub repo" → select your repo
+3. Click "Add Service" → select the repo again
+4. In service settings → set Root Directory: backend
+5. Add Environment Variables:
+   - MONGODB_URI = (your Atlas connection string)
+   - JWT_SECRET = (any random 32+ char string)
+   - JWT_EXPIRE = 7d
+   - GROQ_API_KEY = (your Groq key)
+   - NODE_ENV = production
+   - FRONTEND_URL = (will add after frontend deploys)
+6. Deploy → copy the generated URL
+   e.g. https://taskflow-backend-production.up.railway.app
+
+====================================================
+  STEP 6: DEPLOY FRONTEND ON RAILWAY
+====================================================
+1. In same Railway project → "Add Service" → GitHub
+2. Set Root Directory: frontend
+3. Add Environment Variables:
+   - VITE_API_URL = https://YOUR_BACKEND_URL.railway.app/api
+4. Deploy → copy the frontend URL
+
+====================================================
+  STEP 7: CONNECT THEM
+====================================================
+1. Go back to backend service on Railway
+2. Update FRONTEND_URL = https://YOUR_FRONTEND_URL.railway.app
+3. Redeploy backend
+
+====================================================
+  STEP 8: SEED DEMO DATA (OPTIONAL)
+====================================================
+In Railway backend service → "Shell" tab:
+  node scripts/seed.js
+
+Demo login: demo@taskflow.ai / demo123
+
+====================================================
+  VERIFY DEPLOYMENT
+====================================================
+- Backend health: https://YOUR_BACKEND.railway.app/health
+- Frontend: https://YOUR_FRONTEND.railway.app
+
+====================================================
+  FEATURES TO DEMO IN VIDEO
+====================================================
+1. Sign up / Login
+2. Create a project (pick emoji + color)
+3. Add a team member by email
+4. Create a task → click "AI Fill" button (magic!)
+5. Show Kanban board → drag tasks between columns
+6. Switch to List view
+7. Open a task → update status, add comment
+8. Show Dashboard → charts, overdue tasks, team workload
+9. Show My Tasks page
+10. Show role-based access (admin vs member)
+
+====================================================
+  PROJECT HIGHLIGHTS FOR RECRUITERS
+====================================================
+✅ AI-powered task generation (Groq LLaMA3)
+✅ Beautiful dark UI with glassmorphism
+✅ Smooth animations (Framer Motion)
+✅ Real-time dashboard with charts (Recharts)
+✅ JWT auth with bcrypt password hashing
+✅ Role-based access control (Admin/Member)
+✅ Kanban + List view toggle
+✅ Task comments system
+✅ Team workload visualization
+✅ Overdue task tracking
+✅ Activity log per project
+✅ Rate limiting + Helmet security
+✅ Graceful AI fallbacks
+✅ Production-ready code structure
+====================================================
