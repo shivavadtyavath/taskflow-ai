@@ -1,5 +1,12 @@
 ====================================================
-  TaskFlow AI — Quick Setup & Deployment Guide
+  TaskFlow AI — Live URLs
+====================================================
+Frontend:  https://taskflow-ai-frontend.onrender.com
+Backend:   https://taskflow-ai-backend-y3li.onrender.com
+Health:    https://taskflow-ai-backend-y3li.onrender.com/health
+GitHub:    https://github.com/shivavadtyavath/taskflow-ai
+
+Demo Login: demo@taskflow.ai / demo123
 ====================================================
 
 PREREQUISITES

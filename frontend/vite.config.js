@@ -15,6 +15,10 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    allowedHosts: ['taskflow-ai-frontend.onrender.com', 'all'],
+    host: '0.0.0.0',
+  },
   build: {
     chunkSizeWarningLimit: 1500,
   }
